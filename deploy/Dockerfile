@@ -1,11 +1,11 @@
-FROM node:12.22.8-bullseye-slim
+FROM node:16.10-bullseye-slim
 
-LABEL Naveed Masaud Butt <naveed.butt@coeus-solutions.de>
+LABEL Ahmad Kamal Anwar <ahmadkamalanwar.it@gmail.com>
 
 WORKDIR /app
 COPY yarn.lock package.json ./
 
-RUN yarn install
+RUN npm install
 
 COPY . .
 
