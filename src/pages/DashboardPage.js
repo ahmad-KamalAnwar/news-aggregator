@@ -64,24 +64,24 @@ const Dashboard = () => {
                   <thead>
                   <tr>
                       <th>ID</th>
-                      <th>Author ID</th>
-                      <th>Category ID</th>
                       <th>Content</th>
                       <th>Description</th>
+                      <th>Source</th>
+                      <th>Category</th>
+                      <th>Author</th>
                       <th>Published At</th>
-                      <th>Source ID</th>
                   </tr>
                   </thead>
                   <tbody>
                   {articlesList.map((articles) => (
                       <tr key={articles.id}>
                           <td>{articles.id}</td>
-                          <td>{articles.author_id}</td>
-                          <td>{articles.category_id}</td>
                           <td>{articles.content}</td>
                           <td>{articles.description}</td>
+                          <td>{articles.source.name ?? ''}</td>
+                          <td>{articles.category.name ?? ''}</td>
+                          <td>{articles.author.name ?? ''}</td>
                           <td>{articles.published_at}</td>
-                          <td>{articles.source_id}</td>
                       </tr>
                   ))}
                   </tbody>
