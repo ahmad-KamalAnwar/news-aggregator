@@ -6,17 +6,12 @@ import { useNavigate } from 'react-router-dom';
 const SignupForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value);
-  };
-
-  const handleLastNameChange = (e) => {
-    setLastName(e.target.value);
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
   const handleEmailChange = (e) => {
@@ -30,7 +25,7 @@ const SignupForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(signupUser({ firstName, lastName, email, password }));
+    dispatch(signupUser({ name, email, password }));
 
     navigate('/login');
   };
@@ -38,12 +33,8 @@ const SignupForm = () => {
   return (
     <form onSubmit={handleSubmit} className="signup-form">
       <div className="form-group col-sm-6">
-        <label>First Name:</label>
-        <input type="text" value={firstName} onChange={handleFirstNameChange} className="form-control" />
-      </div>
-      <div className="form-group col-sm-6">
-        <label>Last Name:</label>
-        <input type="text" value={lastName} onChange={handleLastNameChange} className="form-control" />
+        <label>Name:</label>
+        <input type="text" value={name} onChange={handleNameChange} className="form-control" />
       </div>
       <div className="form-group col-sm-6">
         <label>Email:</label>
