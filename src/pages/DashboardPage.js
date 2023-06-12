@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import LogoutButton from '../components/LogoutButton';
 import {userPreference} from "../redux/actions/userAction";
 import {Pagination} from "react-bootstrap";
+import axiosInstance from "../api/axiosInstance";
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -10,10 +11,8 @@ const Dashboard = () => {
     const [articlesList, setArticlesList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalArticles, setTotalArticles] = useState(1);
-
-    useEffect(() => {
-        dispatch(userPreference({nextPage: currentPage}));
-    }, []);
+    const [sources, setSources] = useState([]);
+    const [selectedSourceId, setSelectedSourceId] = useState('');
 
     useEffect(() => {
         setArticlesList(articles)
@@ -26,8 +25,22 @@ const Dashboard = () => {
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
-        dispatch(userPreference({nextPage: pageNumber}));
+        dispatch(userPreference({nextPage: currentPage, sourceId: selectedSourceId}));
     };
+
+    useEffect(() => {
+        if (!selectedSourceId) {
+            axiosInstance.get('api/source')
+                .then(response => {
+                    setSources(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
+        dispatch(userPreference({nextPage: currentPage, sourceId: selectedSourceId}));
+    }, [selectedSourceId]);
 
   return (
       <div>
@@ -36,6 +49,17 @@ const Dashboard = () => {
           <LogoutButton />
           <hr />
           <div className="container">
+              <select value={selectedSourceId} onChange={(e) => {
+                  console.log(e.target.value);
+                  setSelectedSourceId(e.target.value)
+              }}>
+                  <option value="">All</option>
+                  {sources.map(source => (
+                      <option key={source.id} value={source.id}>
+                          {source.name}
+                      </option>
+                  ))}
+              </select>
               <table className="table table-striped">
                   <thead>
                   <tr>
