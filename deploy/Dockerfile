@@ -3,9 +3,9 @@ FROM node:18.16-bullseye-slim
 LABEL Ahmad Kamal Anwar <ahmadkamalanwar.it@gmail.com>
 
 WORKDIR /app
-COPY package-lock.json package.json ./
+COPY yarn.lock package.json ./
 
-RUN npm install
+RUN yarn install
 
 COPY . .
 

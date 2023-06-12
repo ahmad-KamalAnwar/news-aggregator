@@ -7,7 +7,7 @@ import {Pagination} from "react-bootstrap";
 const Dashboard = () => {
     const dispatch = useDispatch();
     const { user, articles, totalCounts, currentPageNumber } = useSelector((state) => state.auth);
-    const [ articlesList, setArticlesList ] = useState([]);
+    const [articlesList, setArticlesList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalArticles, setTotalArticles] = useState(1);
 

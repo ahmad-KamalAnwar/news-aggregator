@@ -2,6 +2,8 @@ import axiosInstance from '../../api/axiosInstance';
 import { AUTH_ERROR, ARTICLES_SUCCESS } from '../constants/types';
 
 export const userPreference = (filters) => async (dispatch) => {
+    axiosInstance.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+
     try {
         const res = await axiosInstance.get(`/api/article?page=${filters.nextPage}`);
 
