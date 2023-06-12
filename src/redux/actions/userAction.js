@@ -3,9 +3,13 @@ import { AUTH_ERROR, ARTICLES_SUCCESS } from '../constants/types';
 
 export const userPreference = (filters) => async (dispatch) => {
     axiosInstance.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+    let url = `/api/article?page=${filters.nextPage}`;
+    url += `${filters.sourceId !== '' ? `&sourceId=${filters.sourceId}` : ''}`;
+    url += `${filters.categoryId !== '' ? `&categoryId=${filters.categoryId}` : ''}`;
+    url += `${filters.authorId !== '' ? `&authorId=${filters.authorId}` : ''}`;
 
     try {
-        const res = await axiosInstance.get(`/api/article?page=${filters.nextPage}${filters.sourceId !== '' ? `&sourceId=${filters.sourceId}` : ''}`);
+        const res = await axiosInstance.get(url);
 
         if (res.status === 200) {
             dispatch({

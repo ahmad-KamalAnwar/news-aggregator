@@ -12,7 +12,11 @@ const Dashboard = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalArticles, setTotalArticles] = useState(1);
     const [sources, setSources] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [authors, setAuthors] = useState([]);
     const [selectedSourceId, setSelectedSourceId] = useState('');
+    const [selectedCategoryId, setSelectedCategoryId] = useState('');
+    const [selectedAuthorId, setSelectedAuthorId] = useState('');
 
     useEffect(() => {
         setArticlesList(articles)
@@ -25,7 +29,14 @@ const Dashboard = () => {
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
-        dispatch(userPreference({nextPage: currentPage, sourceId: selectedSourceId}));
+        dispatch(userPreference(
+            {
+                nextPage: currentPage,
+                sourceId: selectedSourceId,
+                categoryId: selectedCategoryId,
+                authorId: selectedAuthorId
+            })
+        );
     };
 
     useEffect(() => {
@@ -39,8 +50,35 @@ const Dashboard = () => {
                 });
         }
 
-        dispatch(userPreference({nextPage: currentPage, sourceId: selectedSourceId}));
-    }, [selectedSourceId]);
+        if (!selectedCategoryId) {
+            axiosInstance.get('api/category')
+                .then(response => {
+                    setCategories(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
+        if (!selectedAuthorId) {
+            axiosInstance.get('api/author')
+                .then(response => {
+                    setAuthors(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
+        dispatch(userPreference(
+            {
+                nextPage: currentPage,
+                sourceId: selectedSourceId,
+                categoryId: selectedCategoryId,
+                authorId: selectedAuthorId
+            })
+        );
+    }, [selectedSourceId, selectedCategoryId, selectedAuthorId]);
 
   return (
       <div>
@@ -50,15 +88,40 @@ const Dashboard = () => {
           <hr />
           <div className="container">
               <select value={selectedSourceId} onChange={(e) => {
-                  console.log(e.target.value);
                   setSelectedSourceId(e.target.value)
               }}>
                   <option value="">All</option>
-                  {sources.map(source => (
+                  {
+                      sources.map(source => (
                       <option key={source.id} value={source.id}>
                           {source.name}
                       </option>
-                  ))}
+                      ))
+                  }
+              </select>
+              <select value={selectedCategoryId} onChange={(e) => {
+                  setSelectedCategoryId(e.target.value)
+              }}>
+                  <option value="">All</option>
+                  {
+                      categories.map(category => (
+                      <option key={category.id} value={category.id}>
+                          {category.name}
+                      </option>
+                      ))
+                  }
+              </select>
+              <select value={selectedAuthorId} onChange={(e) => {
+                  setSelectedAuthorId(e.target.value)
+              }}>
+                  <option value="">All</option>
+                  {
+                      authors.map(author => (
+                          <option key={author.id} value={author.id}>
+                              {author.name}
+                          </option>
+                      ))
+                  }
               </select>
               <table className="table table-striped">
                   <thead>
@@ -78,9 +141,9 @@ const Dashboard = () => {
                           <td>{articles.id}</td>
                           <td>{articles.content}</td>
                           <td>{articles.description}</td>
-                          <td>{articles.source.name ?? ''}</td>
-                          <td>{articles.category.name ?? ''}</td>
-                          <td>{articles.author.name ?? ''}</td>
+                          <td>{articles.source ? articles.source.name : ''}</td>
+                          <td>{articles.category ? articles.category.name : ''}</td>
+                          <td>{articles.author ? articles.author.name : ''}</td>
                           <td>{articles.published_at}</td>
                       </tr>
                   ))}
