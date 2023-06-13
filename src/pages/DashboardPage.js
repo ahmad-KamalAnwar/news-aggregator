@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import LogoutButton from '../components/LogoutButton';
-import {userPreference} from "../redux/actions/userAction";
+import {getArticles} from "../redux/actions/userAction";
 import {Pagination} from "react-bootstrap";
 import axiosInstance from "../api/axiosInstance";
 
@@ -13,10 +13,10 @@ const Dashboard = () => {
     const [totalArticles, setTotalArticles] = useState(1);
     const [sources, setSources] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [authors, setAuthors] = useState([]);
+    const [fromDate, setFromDate] = useState('');
+    const [toDate, setToDate] = useState('');
     const [selectedSourceId, setSelectedSourceId] = useState('');
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
-    const [selectedAuthorId, setSelectedAuthorId] = useState('');
 
     useEffect(() => {
         setArticlesList(articles)
@@ -29,12 +29,13 @@ const Dashboard = () => {
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
-        dispatch(userPreference(
+        dispatch(getArticles(
             {
                 nextPage: currentPage,
                 sourceId: selectedSourceId,
                 categoryId: selectedCategoryId,
-                authorId: selectedAuthorId
+                fromDate: fromDate,
+                toDate: toDate
             })
         );
     };
@@ -60,25 +61,16 @@ const Dashboard = () => {
                 });
         }
 
-        if (!selectedAuthorId) {
-            axiosInstance.get('api/author')
-                .then(response => {
-                    setAuthors(response.data);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        }
-
-        dispatch(userPreference(
+        dispatch(getArticles(
             {
                 nextPage: currentPage,
                 sourceId: selectedSourceId,
                 categoryId: selectedCategoryId,
-                authorId: selectedAuthorId
+                fromDate: fromDate,
+                toDate: toDate
             })
         );
-    }, [selectedSourceId, selectedCategoryId, selectedAuthorId]);
+    }, [selectedSourceId, selectedCategoryId, fromDate, toDate]);
 
   return (
       <div>
@@ -111,18 +103,17 @@ const Dashboard = () => {
                       ))
                   }
               </select>
-              <select value={selectedAuthorId} onChange={(e) => {
-                  setSelectedAuthorId(e.target.value)
-              }}>
-                  <option value="">All</option>
-                  {
-                      authors.map(author => (
-                          <option key={author.id} value={author.id}>
-                              {author.name}
-                          </option>
-                      ))
-                  }
-              </select>
+              <input
+                  type="date"
+                  value={fromDate}
+                  onChange={(e) => setFromDate(e.target.value)}
+              />
+
+              <input
+                  type="date"
+                  value={toDate}
+                  onChange={(e) => setToDate(e.target.value)}
+              />
               <table className="table table-striped">
                   <thead>
                   <tr>
