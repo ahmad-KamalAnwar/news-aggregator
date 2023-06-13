@@ -1,6 +1,6 @@
 FROM node:18.16-bullseye-slim
 
-LABEL Ahmad Kamal Anwar <ahmadkamalanwar.it@gmail.com>
+MAINTAINER Ahmad Kamal Anwar <ahmadkamalanwar.it@gmail.com>
 
 WORKDIR /app
 COPY yarn.lock package.json ./
