@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import LogoutButton from '../components/LogoutButton';
-import {getArticles} from "../redux/actions/userAction";
-import {Pagination} from "react-bootstrap";
-import axiosInstance from "../api/axiosInstance";
+import { getArticles } from '../redux/actions/userAction';
+import { Pagination } from 'react-bootstrap';
+import axiosInstance from '../api/axiosInstance';
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Dashboard = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
 
     useEffect(() => {
-        setArticlesList(articles)
+        setArticlesList(articles);
     }, [articles]);
 
     useEffect(() => {
@@ -42,7 +42,8 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (!selectedSourceId) {
-            axiosInstance.get('api/source')
+            axiosInstance
+                .get('api/source')
                 .then(response => {
                     setSources(response.data);
                 })
@@ -52,7 +53,8 @@ const Dashboard = () => {
         }
 
         if (!selectedCategoryId) {
-            axiosInstance.get('api/category')
+            axiosInstance
+                .get('api/category')
                 .then(response => {
                     setCategories(response.data);
                 })
