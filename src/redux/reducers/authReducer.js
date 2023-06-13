@@ -1,4 +1,11 @@
-import { LOGIN_SUCCESS, SIGNUP_SUCCESS, LOGOUT, AUTH_ERROR, ARTICLES_SUCCESS } from '../constants/types';
+import {
+    LOGIN_SUCCESS,
+    SIGNUP_SUCCESS,
+    LOGOUT,
+    AUTH_ERROR,
+    ARTICLES_SUCCESS,
+    PREFERENCES_SUCCESS
+} from '../constants/types';
 
 const initialState = {
       token: localStorage.getItem('token'),
@@ -21,6 +28,11 @@ const authReducer = (state = initialState, action) => {
               articles: payload.articles.data,
               totalCounts: payload.articles.total,
               currentPageNumber: payload.articles.current_page
+            };
+        case PREFERENCES_SUCCESS:
+            return {
+                ...state,
+                preferences : payload.source
             };
         case SIGNUP_SUCCESS:
             return {
