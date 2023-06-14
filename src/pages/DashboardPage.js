@@ -85,7 +85,7 @@ const Dashboard = () => {
               <select value={selectedSourceId} onChange={(e) => {
                   setSelectedSourceId(e.target.value)
               }}>
-                  <option value="">All</option>
+                  <option value="">All Sources</option>
                   {
                       sources.map(source => (
                       <option key={source.id} value={source.id}>
@@ -97,7 +97,7 @@ const Dashboard = () => {
               <select value={selectedCategoryId} onChange={(e) => {
                   setSelectedCategoryId(e.target.value)
               }}>
-                  <option value="">All</option>
+                  <option value="">All Categories</option>
                   {
                       categories.map(category => (
                       <option key={category.id} value={category.id}>

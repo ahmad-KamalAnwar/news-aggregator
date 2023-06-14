@@ -98,7 +98,7 @@ const Preference = () => {
     return (
       <div>
           <h2>Welcome, {`${user.name}`}!</h2>
-          <p>This is your dashboard.</p>
+          <p>This are your Settings.</p>
           <LogoutButton />
           <button className="btn btn-primary mt-2 float-end" onClick={submitPreferences}>Save</button>
           <hr />
