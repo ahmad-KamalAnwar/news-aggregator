@@ -79,6 +79,7 @@ const Dashboard = () => {
           <h2>Welcome, {`${user.name}`}!</h2>
           <p>This is your dashboard.</p>
           <LogoutButton />
+          <button className="btn btn-primary mt-2 float-end" onClick={() => window.open("/settings", "_blank")}>Settings</button>
           <hr />
           <div className="container">
               <select value={selectedSourceId} onChange={(e) => {

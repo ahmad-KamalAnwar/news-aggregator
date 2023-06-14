@@ -5,6 +5,7 @@ import Navbar from './components/common/Navbar';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import DashboardPage from './pages/DashboardPage';
+import PreferencesPage from "./pages/PreferencesPage";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -48,6 +49,11 @@ const App = () => {
             exact
             path="/dashboard"
             element={isAuthenticated ? <DashboardPage /> : <Navigate to="/login" />}
+          />
+          <Route
+              exact
+              path="/settings"
+              element={isAuthenticated ? <PreferencesPage /> : <Navigate to="/login" />}
           />
         </Routes>
       </div>
